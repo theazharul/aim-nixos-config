@@ -83,7 +83,7 @@
     description = "Azhar Ibn Mostafiz";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      thunderbird
     ];
   };
 
@@ -102,6 +102,20 @@ git
   wget
 emacs
 elixir
+  ];
+  
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    source-code-pro
+    # emacs-all-the-icons-fonts
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
