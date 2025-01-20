@@ -77,11 +77,14 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+# Add docker group
+  users.groups.docker = {};
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.azhar = {
     isNormalUser = true;
     description = "Azhar Ibn Mostafiz";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       thunderbird
     ];
@@ -98,10 +101,13 @@
   environment.systemPackages = with pkgs; [
 cmake
 git
-  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  vim
   wget
-emacs
+# Programming Languages
 elixir
+
+
+dbgate
   ];
   
   fonts.packages = with pkgs; [
@@ -146,4 +152,7 @@ elixir
   system.stateVersion = "24.11"; # Did you read the comment?
 services.flatpak.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+virtualisation.docker.enable = true;
+services.postgresql.enable = true;
+services.emacs.enable = true;
 }
