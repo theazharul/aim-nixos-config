@@ -99,16 +99,25 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-cmake
-git
-  vim
-  wget
-# Programming Languages
-elixir
+    gcc
+    python3
+    git
+    gnumake
+    cmake
+    git
+    vim
+    wget
+    ispell
 
+    # Programming Languages
+    elixir
 
-dbgate
+    dbgate
+libvterm
+emacsPackages.vterm
   ];
+
+
   
   fonts.packages = with pkgs; [
     noto-fonts
@@ -123,6 +132,15 @@ dbgate
     source-code-pro
     # emacs-all-the-icons-fonts
   ];
+
+services.flatpak.enable = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+virtualisation.docker.enable = true;
+services.postgresql = {
+  enable = true;
+# dataDir = "/var/lib/postgresql/data";
+};
+services.emacs.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -150,9 +168,4 @@ dbgate
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-services.flatpak.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-virtualisation.docker.enable = true;
-services.postgresql.enable = true;
-services.emacs.enable = true;
 }
