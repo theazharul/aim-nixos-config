@@ -11,8 +11,18 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 3;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Garbage Collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  }; 
 
   networking.hostName = "nixos-powerhouse"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -115,6 +125,9 @@
     dbgate
     libvterm
     emacsPackages.vterm
+    syncthing
+
+    zapzap
   ];
 
 
@@ -165,9 +178,33 @@ services.postgresql = {
 # Emacs
 services.emacs = {
   enable = true;
+  install = true;
 };
 
 programs.npm.enable = true;
+
+services.syncthing = {
+  enable = false;
+  user = "azhar";
+  relay.listenAddress = "127.0.0.1";
+  settings = {
+    folders = {
+      "/home/azhar/Sync" = {
+        id = "nixos-sync";
+        devices = [ "dell-nixos" ];
+      };
+    };
+
+    devices = {
+      dell-nixos = {
+        id = "7CFNTQM-IMTJBHJ-3UWRDIU-ZGQJFR6-VCXZ3NB-XUH3KZO-N52ITXR-LAIYUAU";
+      };
+    };
+  };
+
+};
+
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -183,7 +220,7 @@ programs.npm.enable = true;
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedTCPPorts = [ 22067 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
