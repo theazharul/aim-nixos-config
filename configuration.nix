@@ -110,7 +110,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     gcc
-    python3
     git
     gnumake
     cmake
@@ -120,7 +119,26 @@
     ispell
     inotify-tools
     # Programming Languages
+
+    #Elixir
     elixir
+    elixir-ls
+
+    #Python
+    python3
+    pyright
+
+    #typescript
+    typescript-language-server
+
+    # Go
+    gopls
+
+    #YAML
+    yaml-language-server
+
+    #PHP
+    intelephense
 
     dbgate
     libvterm
@@ -128,6 +146,7 @@
     syncthing
 
     zapzap
+    telegram-desktop
   ];
 
 
