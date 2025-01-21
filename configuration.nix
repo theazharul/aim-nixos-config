@@ -108,7 +108,7 @@
     vim
     wget
     ispell
-
+    inotify-tools
     # Programming Languages
     elixir
 
