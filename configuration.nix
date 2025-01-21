@@ -113,8 +113,8 @@
     elixir
 
     dbgate
-libvterm
-emacsPackages.vterm
+    libvterm
+    emacsPackages.vterm
   ];
 
 
@@ -136,11 +136,38 @@ emacsPackages.vterm
 services.flatpak.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 virtualisation.docker.enable = true;
+
+# PostgreSQL
 services.postgresql = {
   enable = true;
-# dataDir = "/var/lib/postgresql/data";
+  ensureUsers = [
+    { 
+      name = "azhar"; 
+      ensureClauses = {
+        createdb = true;
+        superuser = true;
+      }; 
+    }
+    { 
+      name = "postgres"; 
+      ensureClauses = {
+        superuser = true;
+        createdb = true;
+      }; 
+    }
+  ];
+  ensureDatabases = ["azhar" "nexus_dev"];
+
+  initialScript = pkgs.writeText "init-sql-script" ''
+'';
 };
-services.emacs.enable = true;
+
+# Emacs
+services.emacs = {
+  enable = true;
+};
+
+programs.npm.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
