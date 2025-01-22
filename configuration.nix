@@ -147,6 +147,7 @@
 
     zapzap
     telegram-desktop
+    devenv
   ];
 
 
