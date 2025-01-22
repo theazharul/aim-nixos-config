@@ -24,7 +24,7 @@
     options = "--delete-older-than 7d";
   }; 
 
-  networking.hostName = "nixos-powerhouse"; # Define your hostname.
+  networking.hostName = "powernix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -96,7 +96,7 @@
     description = "Azhar Ibn Mostafiz";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      thunderbird
+     # thunderbird
     ];
   };
 
@@ -142,7 +142,11 @@
 
     dbgate
     libvterm
+    # Emacs packages
     emacsPackages.vterm
+    emacsPackages.pdf-tools
+    emacsPackages.elixir-ts-mode
+    emacsPackages.elixir-yasnippets
     syncthing
 
     zapzap
