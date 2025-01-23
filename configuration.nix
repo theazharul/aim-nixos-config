@@ -148,7 +148,6 @@
     emacsPackages.pdf-tools
     emacsPackages.elixir-ts-mode
     emacsPackages.elixir-yasnippets
-    syncthing
 
     zapzap
     telegram-desktop
@@ -195,26 +194,6 @@ services.emacs = {
 
 programs.npm.enable = true;
 
-services.syncthing = {
-  enable = false;
-  user = "azhar";
-  relay.listenAddress = "127.0.0.1";
-  settings = {
-    folders = {
-      "/home/azhar/Sync" = {
-        id = "nixos-sync";
-        devices = [ "dell-nixos" ];
-      };
-    };
-
-    devices = {
-      dell-nixos = {
-        id = "7CFNTQM-IMTJBHJ-3UWRDIU-ZGQJFR6-VCXZ3NB-XUH3KZO-N52ITXR-LAIYUAU";
-      };
-    };
-  };
-
-};
 
 programs.zsh = {
   enable = true;
@@ -226,6 +205,13 @@ programs.zsh = {
 
 # Mikrotik
 programs.winbox.enable = true;
+
+services.syncthing = {
+enable = true;
+openDefaultPorts = true;
+user = "azhar";
+dataDir = "/home/azhar";
+}; 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
