@@ -153,6 +153,7 @@
     zapzap
     telegram-desktop
     devenv
+    ripgrep
   ];
 
 
