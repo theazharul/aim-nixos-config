@@ -178,22 +178,8 @@ virtualisation.docker.enable = true;
 services.postgresql = {
   enable = true;
   ensureUsers = [
-    { 
-      name = "azhar"; 
-      ensureClauses = {
-        createdb = true;
-        superuser = true;
-      }; 
-    }
-    { 
-      name = "postgres"; 
-      ensureClauses = {
-        superuser = true;
-        createdb = true;
-      }; 
-    }
   ];
-  ensureDatabases = ["azhar" "nexus_dev"];
+  ensureDatabases = ["nexus_dev"];
 
   initialScript = pkgs.writeText "init-sql-script" ''
 '';
@@ -228,7 +214,13 @@ services.syncthing = {
 
 };
 
-
+programs.zsh = {
+  enable = true;
+  ohMyZsh = {
+    enable = true;
+    theme = "gnzh";
+  };
+};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
