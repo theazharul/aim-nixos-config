@@ -92,6 +92,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.azhar = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "Azhar Ibn Mostafiz";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
