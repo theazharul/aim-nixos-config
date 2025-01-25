@@ -17,10 +17,12 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+
+    emacs-all-the-icons-fonts
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -35,6 +37,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+fonts.fontconfig.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -114,8 +117,53 @@ programs.zsh = {
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs;
-    extraPackages = epkgs: with epkgs; [ evil use-package magit ];
+    package = pkgs.emacs-gtk;
+    extraPackages = epkgs: with epkgs; [
+      use-package
+      evil
+      magit
+    evil-mc
+    evil-tex
+    evil-org
+    evil-surround
+    evil-markdown
+    evil-commentary
+    evil-collection
+    evil-vimish-fold
+    treemacs
+    treemacs-projectile
+    projectile
+    projectile-ripgrep
+    projectile-speedbar
+    tree-sitter
+    tree-sitter-langs
+    corfu
+    vertico
+    consult
+    embark
+    marginalia
+    flymake
+    flymake-popon
+    prettier
+    web-mode
+    emmet-mode
+    nix-mode
+    python-mode
+    vterm
+    pdf-tools
+    yasnippet
+    yasnippet-snippets
+    elixir-ts-mode
+    elixir-yasnippets
+    all-the-icons
+    highlight-indent-guides
+    doom-themes
+    general
+    po-mode
+    dashboard
+    treemacs
+    toc-org
+    ];
   };
 
   # Let Home Manager install and manage itself.

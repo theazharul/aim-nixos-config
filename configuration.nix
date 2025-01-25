@@ -143,51 +143,6 @@
 
     dbgate
     libvterm
-    # Emacs packages
-    emacsPackages.evil
-    emacsPackages.evil-mc
-    emacsPackages.evil-tex
-    emacsPackages.evil-org
-    emacsPackages.evil-surround
-    emacsPackages.evil-markdown
-    emacsPackages.evil-commentary
-    emacsPackages.evil-collection
-    emacsPackages.evil-vimish-fold
-    emacsPackages.treemacs
-    emacsPackages.treemacs-projectile
-    emacsPackages.projectile
-    emacsPackages.projectile-ripgrep
-    emacsPackages.projectile-speedbar
-    emacsPackages.tree-sitter
-    emacsPackages.tree-sitter-langs
-    emacsPackages.corfu
-    emacsPackages.vertico
-    emacsPackages.consult
-    emacsPackages.embark
-    emacsPackages.marginalia
-    emacsPackages.flymake
-    emacsPackages.flymake-popon
-    emacsPackages.prettier
-    emacsPackages.web-mode
-    emacsPackages.emmet-mode
-    emacsPackages.nix-mode
-    emacsPackages.python-mode
-    emacsPackages.vterm
-    emacsPackages.pdf-tools
-    emacsPackages.magit
-    emacsPackages.yasnippet
-    emacsPackages.yasnippet-snippets
-    emacsPackages.elixir-ts-mode
-    emacsPackages.elixir-yasnippets
-    emacsPackages.all-the-icons
-    emacsPackages.highlight-indent-guides
-    emacsPackages.doom-themes
-    emacsPackages.general
-    emacsPackages.po-mode
-    emacsPackages.dashboard
-    emacsPackages.treemacs
-    emacsPackages.toc-org
-
     zapzap
     telegram-desktop
     devenv
@@ -207,7 +162,6 @@
     dina-font
     proggyfonts
     source-code-pro
-    # emacs-all-the-icons-fonts
   ];
 
 services.flatpak.enable = true;
@@ -225,23 +179,11 @@ services.postgresql = {
 '';
 };
 
-# Emacs
-services.emacs = {
-  enable = true;
-  package = pkgs.emacs;
-  # install = true;
-};
 
 programs.npm.enable = true;
 
 
-programs.zsh = {
-  enable = true;
-  ohMyZsh = {
-    enable = true;
-    theme = "gnzh";
-  };
-};
+programs.zsh.enable = true;
 
 # Mikrotik
 programs.winbox.enable = true;
