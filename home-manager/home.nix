@@ -135,8 +135,6 @@ programs.zsh = {
     projectile
     projectile-ripgrep
     projectile-speedbar
-    tree-sitter
-    tree-sitter-langs
     corfu
     vertico
     consult
@@ -173,8 +171,13 @@ editorconfig
 expand-region
 smartparens
 undo-tree
+
+    tree-sitter
+    tree-sitter-langs
     ];
   };
+
+services.emacs.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
