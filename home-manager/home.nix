@@ -149,6 +149,8 @@ programs.zsh = {
     emmet-mode
     nix-mode
     python-mode
+dart-mode
+php-mode
     vterm
     pdf-tools
     yasnippet
@@ -163,6 +165,14 @@ programs.zsh = {
     dashboard
     treemacs
     toc-org
+      rainbow-delimiters
+which-key
+dictionary
+hydra
+editorconfig
+expand-region
+smartparens
+undo-tree
     ];
   };
 
