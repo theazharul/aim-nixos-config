@@ -82,24 +82,35 @@ programs.git = {
     };
   };
 
-  programs.zsh = {
+programs.zsh = {
+  enable = true;
+  enableCompletion = true;
+  syntaxHighlighting.enable = true;
+
+  plugins = [
+    {
+      name = "zsh-autosuggestions";
+      src = pkgs.zsh-autosuggestions;
+    }
+    {
+      name = "zsh-syntax-highlighting";
+      src = pkgs.zsh-syntax-highlighting;
+    }
+  ];
+
+  oh-my-zsh = {
     enable = true;
-    enableCompletion = true;
-    syntaxHighlighting.enable = true;
-    autosuggestions.enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "agnoster";
-      plugins = [ "git" "zsh-autosuggestions" "zsh-syntax-highlighting" ];
-    };
-
-    shellAliases = {
-      ll = "ls -lah";
-      gs = "git status";
-      gp = "git pull";
-    };
+    theme = "gnzh";
+    plugins = [ "git" ];
   };
+
+  shellAliases = {
+    ll = "ls -lah";
+    gs = "git status";
+    gp = "git pull";
+  };
+};
+
 
   programs.emacs = {
     enable = true;
