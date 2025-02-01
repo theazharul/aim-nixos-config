@@ -34,6 +34,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+
   # Set your time zone.
   time.timeZone = "Asia/Dhaka";
 
@@ -120,7 +121,6 @@
     ispell
     inotify-tools
     # Programming Languages
-
     #Elixir
     elixir
     elixir-ls
@@ -147,6 +147,20 @@
     telegram-desktop
     devenv
     ripgrep
+    zoom-us
+    xdg-desktop-portal
+    libreoffice
+    blender
+    audacity
+
+    nginx
+    mariadb
+    php
+    wordpress
+
+    inkscape
+    gimp
+
   ];
 
 
@@ -162,6 +176,7 @@
     dina-font
     proggyfonts
     source-code-pro
+    lohit-fonts.bengali
   ];
 
 services.flatpak.enable = true;
@@ -189,27 +204,78 @@ programs.zsh.enable = true;
 programs.winbox.enable = true;
 
 services.syncthing = {
-enable = true;
-openDefaultPorts = true;
-user = "azhar";
-dataDir = "/home/azhar";
+  enable = true;
+  openDefaultPorts = true;
+  user = "azhar";
+  dataDir = "/home/azhar";
 }; 
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    ensureDatabases = [ "wordpress" ];
+    ensureUsers = [
+      {
+        name = "wordpress";
+        ensurePermissions = {
+          "wordpress.*" = "ALL PRIVILEGES";
+        };
+      }
+    ];
+  };
 
+  services.phpfpm.pools = {
+    wordpress = {
+      user = "nginx";
+      group = "nginx";
+      settings = {
+        "listen" = "/var/run/phpfpm-wordpress.sock";
+        "listen.owner" = "nginx";
+        "listen.group" = "nginx";
+        "pm" = "dynamic";
+        "pm.max_children" = 5;
+        "pm.start_servers" = 2;
+        "pm.min_spare_servers" = 1;
+        "pm.max_spare_servers" = 3;
+      };
+    };
+  };
+
+networking.extraHosts = ''
+  127.0.0.1 propovoice-dev.local
+'';
+
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "propovoice-dev.local" = {
+        root = "/home/azhar/sites/mysite";
+        locations."/" = {
+          index = "index.php";
+          tryFiles = "$uri $uri/ /index.php?$args";
+        };
+        locations."~ \.php$" = {
+          extraConfig = ''
+            include ${config.services.nginx.package}/conf/fastcgi_params;
+            fastcgi_pass unix:/var/run/phpfpm-wordpress.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          '';
+        };
+      };
+    };
+  };
+
+programs.obs-studio.enable = true;
+
+# services.mautrix-whatsapp.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ 22067 ];
+  # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

@@ -17,26 +17,13 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+home.packages = with pkgs; [
+  emacs-all-the-icons-fonts
+  php
+  phpPackages.composer
+  bash
+];
 
-    emacs-all-the-icons-fonts
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
 fonts.fontconfig.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -52,6 +39,14 @@ fonts.fontconfig.enable = true;
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+# ".config/nginx/sites-enabled" = {
+#     source = ./nginx-sites;
+#     recursive = true;
+#   };
+
+".zshrc".text = ''
+    export PATH="$HOME/.config/scripts:$PATH"
+  '';
   };
 
   # Home Manager can also manage your environment variables through
@@ -73,6 +68,11 @@ fonts.fontconfig.enable = true;
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
+
+  home.activation.installWordPressScripts = ''
+    mkdir -p $HOME/.config/scripts
+    chmod +x $HOME/.config/scripts/wp-*
+  '';
 
 programs.git = {
     enable = true;
@@ -174,10 +174,15 @@ undo-tree
 
     tree-sitter
     tree-sitter-langs
+      rg
     ];
   };
 
 services.emacs.enable = true;
+
+
+
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
