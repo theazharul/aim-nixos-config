@@ -153,10 +153,10 @@
     blender
     audacity
 
-    nginx
-    mariadb
+    # nginx
+    # mariadb
     php
-    wordpress
+    # wordpress
 
     inkscape
     gimp
@@ -210,6 +210,31 @@ services.syncthing = {
   dataDir = "/home/azhar";
 }; 
 
+
+networking.extraHosts = ''
+  127.0.0.1 propovoice-dev.local
+  127.0.0.1 test.local
+'';
+
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "propovoice-dev.local" = {
+        root = "/var/www/propovoice-dev";
+        locations."/" = {
+          index = "index.php index.html index.htm";
+          tryFiles = "$uri $uri/ /index.php?$args";
+        };
+        locations."~ \\.php$" = {
+          extraConfig = ''
+            fastcgi_pass unix:${config.services.phpfpm.pools.wordpress.socket};
+            fastcgi_index index.php;
+          '';
+        };
+      };
+    };
+  };
+
 services.mysql = {
     enable = true;
     package = pkgs.mariadb;
@@ -227,11 +252,10 @@ services.mysql = {
   services.phpfpm.pools = {
     wordpress = {
       user = "nginx";
-      group = "nginx";
+      # group = "nginx";
       settings = {
-        "listen" = "/var/run/phpfpm-wordpress.sock";
-        "listen.owner" = "nginx";
-        "listen.group" = "nginx";
+        "listen.owner" = config.services.nginx.user;
+        # "listen.group" = config.services.nginx.group;
         "pm" = "dynamic";
         "pm.max_children" = 5;
         "pm.start_servers" = 2;
@@ -241,30 +265,6 @@ services.mysql = {
     };
   };
 
-networking.extraHosts = ''
-  127.0.0.1 propovoice-dev.local
-'';
-
-  services.nginx = {
-    enable = true;
-    virtualHosts = {
-      "propovoice-dev.local" = {
-        root = "/home/azhar/sites/mysite";
-        locations."/" = {
-          index = "index.php";
-          tryFiles = "$uri $uri/ /index.php?$args";
-        };
-        locations."~ \.php$" = {
-          extraConfig = ''
-            include ${config.services.nginx.package}/conf/fastcgi_params;
-            fastcgi_pass unix:/var/run/phpfpm-wordpress.sock;
-            fastcgi_index index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-          '';
-        };
-      };
-    };
-  };
 
 programs.obs-studio.enable = true;
 
