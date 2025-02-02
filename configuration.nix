@@ -213,7 +213,6 @@ services.syncthing = {
 
 networking.extraHosts = ''
   127.0.0.1 propovoice-dev.local
-  127.0.0.1 test.local
 '';
 
   services.nginx = {
