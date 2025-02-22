@@ -190,8 +190,8 @@ services.postgresql = {
   ];
   ensureDatabases = ["nexus_dev"];
 
-  initialScript = pkgs.writeText "init-sql-script" ''
-'';
+# initialScript = pkgs.writeText "init-sql-script" ''
+# '';
 };
 
 
@@ -235,18 +235,26 @@ networking.extraHosts = ''
   };
 
 services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
-    ensureDatabases = [ "wordpress" ];
-    ensureUsers = [
-      {
-        name = "wordpress";
-        ensurePermissions = {
-          "wordpress.*" = "ALL PRIVILEGES";
-        };
-      }
-    ];
-  };
+  enable = true;
+  package = pkgs.mariadb;
+  ensureDatabases = [ "wordpress" "propovoice_dev" ];
+  ensureUsers = [
+    {
+      name = "wordpress";
+      ensurePermissions = {
+        "wordpress.*" = "ALL PRIVILEGES";
+      };
+    }
+    {
+      name = "a";
+      ensurePermissions = {
+        "propovoice_dev.*" = "ALL PRIVILEGES";
+      };
+    }
+  ];
+  # initialScript = pkgs.writeText "mysql-init.sql" ''
+  # '';
+};
 
   services.phpfpm.pools = {
     wordpress = {
