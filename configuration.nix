@@ -161,6 +161,8 @@
     inkscape
     gimp
 
+    mailpit
+
   ];
 
 
@@ -256,6 +258,15 @@ services.mysql = {
   # '';
 };
 
+services.postfix = {
+  enable = true;
+  config = {
+    inet_interfaces = "all";
+    myhostname = "localhost";
+    relayhost = "localhost:1025"; # Point to Mailpit's SMTP
+  };
+};
+
   services.phpfpm.pools = {
     wordpress = {
       user = "nginx";
@@ -268,6 +279,11 @@ services.mysql = {
         "pm.start_servers" = 2;
         "pm.min_spare_servers" = 1;
         "pm.max_spare_servers" = 3;
+      };
+
+      phpEnv = {
+        PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -t -i";
+        # PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -S localhost:1025";
       };
     };
   };
