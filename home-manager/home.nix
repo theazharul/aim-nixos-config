@@ -175,6 +175,7 @@ undo-tree
     tree-sitter
     tree-sitter-langs
       rg
+      ag
     ];
   };
 

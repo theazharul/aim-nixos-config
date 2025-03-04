@@ -162,7 +162,9 @@
     gimp
 
     mailpit
+    silver-searcher
 
+    opera
   ];
 
 
@@ -184,6 +186,14 @@
 services.flatpak.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 virtualisation.docker.enable = true;
+
+services.dnscrypt-proxy2 = {
+  enable = true;
+  settings = {
+    server_names = [ "cloudflare" "google" ];
+  };
+};
+
 
 # PostgreSQL
 services.postgresql = {
