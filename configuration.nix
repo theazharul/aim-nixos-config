@@ -161,10 +161,10 @@
     inkscape
     gimp
 
-    mailpit
     silver-searcher
 
     opera
+    calibre
   ];
 
 
@@ -268,12 +268,16 @@ services.mysql = {
   # '';
 };
 
+
+services.mailpit.instances.default = {};
+
 services.postfix = {
   enable = true;
   config = {
     inet_interfaces = "all";
+    smtpd_tls_security_level = "none";
     myhostname = "localhost";
-    relayhost = "localhost:1025"; # Point to Mailpit's SMTP
+    relayhost = "127.0.0.1:1025"; # Point to Mailpit's SMTP
   };
 };
 
@@ -292,8 +296,9 @@ services.postfix = {
       };
 
       phpEnv = {
-        PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -t -i";
+        # PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -t -i";
         # PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -S localhost:1025";
+        PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -S 127.0.0.1:1025 -t -i";
       };
     };
   };
