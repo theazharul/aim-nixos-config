@@ -165,6 +165,8 @@
 
     opera
     calibre
+
+    htop
   ];
 
 
