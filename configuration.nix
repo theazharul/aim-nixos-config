@@ -102,6 +102,13 @@
     ];
   };
 
+  # Virtualbox config
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "azhar" ];
+  # virtualisation.virtualbox.host.enableExtensionPack = true;
+  # virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.guest.dragAndDrop = true;
+
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -167,6 +174,7 @@
     calibre
 
     htop
+    clockify
   ];
 
 
