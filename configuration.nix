@@ -175,6 +175,9 @@
 
     htop
     clockify
+
+    wp-cli
+    zip
   ];
 
 
@@ -304,6 +307,11 @@ services.postfix = {
         "pm.min_spare_servers" = 1;
         "pm.max_spare_servers" = 3;
       };
+
+      phpOptions = ''
+        upload_max_filesize = 100M
+        post_max_size = 100M
+      '';
 
       phpEnv = {
         # PHP_SENDMAIL_PATH = "/run/wrappers/bin/sendmail -t -i";
