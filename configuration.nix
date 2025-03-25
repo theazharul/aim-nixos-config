@@ -88,7 +88,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-# Add docker group
+  # Add docker group
   users.groups.docker = {};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -178,6 +178,7 @@
 
     wp-cli
     zip
+    subversion
   ];
 
 
