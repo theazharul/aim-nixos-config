@@ -179,6 +179,9 @@
     wp-cli
     zip
     subversion
+
+    slack
+    gnome-pomodoro
   ];
 
 
