@@ -182,6 +182,10 @@
 
     slack
     gnome-pomodoro
+
+    # Rust Language
+    cargo
+    rustc
   ];
 
 
