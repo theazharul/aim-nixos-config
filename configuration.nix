@@ -170,7 +170,6 @@
 
     silver-searcher
 
-    opera
     calibre
 
     htop
@@ -186,6 +185,8 @@
     # Rust Language
     cargo
     rustc
+
+    chromium
   ];
 
 
@@ -246,6 +247,7 @@ services.syncthing = {
 
 networking.extraHosts = ''
   127.0.0.1 propovoice-dev.local
+  127.0.0.1 propovoice-multi-dev.local
 '';
 
   services.nginx = {
@@ -264,13 +266,27 @@ networking.extraHosts = ''
           '';
         };
       };
+
+      "propovoice-multi-dev.local" = {
+        root = "/var/www/propovoice-multi-dev";
+        locations."/" = {
+          index = "index.php index.html index.htm";
+          tryFiles = "$uri $uri/ /index.php?$args";
+        };
+        locations."~ \\.php$" = {
+          extraConfig = ''
+            fastcgi_pass unix:${config.services.phpfpm.pools.wordpress.socket};
+            fastcgi_index index.php;
+          '';
+        };
+      };
     };
   };
 
 services.mysql = {
   enable = true;
   package = pkgs.mariadb;
-  ensureDatabases = [ "wordpress" "propovoice_dev" ];
+  ensureDatabases = [ "wordpress" "propovoice_dev" "propovoice_multi_dev" ];
   ensureUsers = [
     {
       name = "wordpress";
@@ -282,6 +298,7 @@ services.mysql = {
       name = "a";
       ensurePermissions = {
         "propovoice_dev.*" = "ALL PRIVILEGES";
+        "propovoice_multi_dev.*" = "ALL PRIVILEGES";
       };
     }
   ];
